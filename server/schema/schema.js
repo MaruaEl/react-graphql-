@@ -22,27 +22,47 @@ var authors = [
 ];
 
 const BookType = new GraphQLObjectType({
-	name: 'Book',
+  name: 'Book',
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLSchema },
+    genre: { type: GraphQLString },
+  }),
+});
+
+const AuthorType = new GraphQLObjectType({
+	name: 'Author',
 	fields: () => ({
-		id: { type: GraphQLString },
-		name: { type: GraphQLSchema },
-		genre: { type: GraphQLString },
+		id: { type: GraphQLID},
+		name: { type: GraphQLString },
+		age: { type: GraphQLInt }
 	})
 });
+
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     book: {
       type: BookType,
-      args: { id: { type: GraphQLString } },
+      args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         // code from Database - right now dummy data
         return books.find(item => item.id === args.id);
       },
     },
+    author: {
+      type: AuthorType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        // code from Database - right now dummy data
+        return authors.find(item => item.id === args.id);
+      },
+    },
   },
 });
+
+
 
 
 
